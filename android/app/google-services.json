@@ -1,0 +1,163 @@
+{
+  "project_info": {
+    "project_number": "484224926717",
+    "firebase_url": "https://stressbusters-36609.firebaseio.com",
+    "project_id": "stressbusters-36609",
+    "storage_bucket": "stressbusters-36609.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484224926717:android:bc45d337a6936e09a3cf94",
+        "android_client_info": {
+          "package_name": "com.stressbuster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484224926717-o07fceqi212tt8ikn9oesnjfht66hpfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP_aPifksFoUFVJtXgzyP7Eg7H6wiIvh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484224926717-o07fceqi212tt8ikn9oesnjfht66hpfo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "484224926717-6q2p2n5tqulk91nvlcfu7m3r9t9cam0l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stressbusterscentral.calmcast"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484224926717:android:f3cda2ad6c05ce24",
+        "android_client_info": {
+          "package_name": "com.stressbusterswellness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484224926717-4fheregk7cmjnh4f8o7koa9a7ql68c40.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stressbusterswellness",
+            "certificate_hash": "9f5d8c102fb0dc22b42198fae72038500a6eef3c"
+          }
+        },
+        {
+          "client_id": "484224926717-o07fceqi212tt8ikn9oesnjfht66hpfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP_aPifksFoUFVJtXgzyP7Eg7H6wiIvh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484224926717-o07fceqi212tt8ikn9oesnjfht66hpfo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "484224926717-6q2p2n5tqulk91nvlcfu7m3r9t9cam0l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stressbusterscentral.calmcast"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484224926717:android:0f7a5257258fb77b",
+        "android_client_info": {
+          "package_name": "com.stressbusterswellness.calmcast"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484224926717-o07fceqi212tt8ikn9oesnjfht66hpfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP_aPifksFoUFVJtXgzyP7Eg7H6wiIvh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484224926717-o07fceqi212tt8ikn9oesnjfht66hpfo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "484224926717-6q2p2n5tqulk91nvlcfu7m3r9t9cam0l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stressbusterscentral.calmcast"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484224926717:android:bf698b367851fc3c",
+        "android_client_info": {
+          "package_name": "com.stressbusterswellness.upenn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484224926717-o07fceqi212tt8ikn9oesnjfht66hpfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP_aPifksFoUFVJtXgzyP7Eg7H6wiIvh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484224926717-o07fceqi212tt8ikn9oesnjfht66hpfo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "484224926717-6q2p2n5tqulk91nvlcfu7m3r9t9cam0l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stressbusterscentral.calmcast"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

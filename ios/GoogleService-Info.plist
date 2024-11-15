@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>484224926717-6q2p2n5tqulk91nvlcfu7m3r9t9cam0l.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.484224926717-6q2p2n5tqulk91nvlcfu7m3r9t9cam0l</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>484224926717-4fheregk7cmjnh4f8o7koa9a7ql68c40.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBOAvIXK9yZ1w1m9ee1Nd8s-jUgCm5-7Gs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>484224926717</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.stressbusterscentral.calmcast</string>
+	<key>PROJECT_ID</key>
+	<string>stressbusters-36609</string>
+	<key>STORAGE_BUCKET</key>
+	<string>stressbusters-36609.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:484224926717:ios:ef91ee10e1141ea0</string>
+	<key>DATABASE_URL</key>
+	<string>https://stressbusters-36609.firebaseio.com</string>
+</dict>
+</plist>
