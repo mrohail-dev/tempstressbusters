@@ -40,7 +40,6 @@ class Events extends Component {
 		const route = routes.events();
     return (
 			<View style={styles.container}>
-				<NavBar title={route.title} logoUrl={logoUrl} />
 				<Animated.View style={transitionAnimatedStyles}>
 					<SlidingTabBarView
 						filter={filter}

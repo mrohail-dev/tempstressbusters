@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     height: sc.navBarHeight,
     paddingHorizontal: 20,
-    width: '100%'
+    width: '100%',
+    marginTop:'10%'
   },
   buttonLeft: {
     alignItems: 'flex-start',

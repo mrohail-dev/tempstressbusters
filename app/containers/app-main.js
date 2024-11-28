@@ -53,6 +53,7 @@ export const navTheme = {
     ...DefaultTheme.colors,
     background: 'transparent',
   },
+  // marginBottom: 10,
 };
 
 const propTypes = {};
@@ -307,6 +308,7 @@ class AppMain extends Component {
     return (
       <NavigationContainer theme={navTheme}>
         <Tab.Navigator
+        
           screenOptions={({route, navigation}) => ({
             tabBarIcon: ({focused}) => {
               const routes = (this.props.school.tabs || []).find(
@@ -344,6 +346,7 @@ class AppMain extends Component {
             headerShown: false,
             // tabBarItemStyle: styles.tabSceneStyle
           })}>
+            {console.log("blblblb",this.props.school.tabs)}
           {this.props.school.tabs.map(tab => (
             <Tab.Screen
               name={tab.title}
@@ -453,6 +456,7 @@ class AppMain extends Component {
 AppMain.propTypes = propTypes;
 const styles = StyleSheet.create({
   tabSceneStyle: {
+    // marginBottom: 10,
     paddingTop: isIphoneX() ? 15 : 0,
     paddingBottom: sc.tabBarHeight + getBottomSpace() - 3,
   },
@@ -460,7 +464,7 @@ const styles = StyleSheet.create({
     backgroundColor: sc.tabBarBackgroundColor,
     borderColor: sc.tabBarBackgroundColor,
     height: sc.tabBarHeight + getBottomSpace() - 3,
-    paddingBottom: getBottomSpace() - 5,
+    // paddingBottom: getBottomSpace() - 5,
   },
   textTabTitle: {
     fontWeight: 'bold',

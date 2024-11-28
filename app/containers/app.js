@@ -59,7 +59,7 @@ class App extends Component {
     requestUserPermission();
     this.registerDeviceForMessaging();
     this.unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
-      Alert.alert('New Notification!', JSON.stringify(remoteMessage.notification));
+      // Alert.alert('New Notification!', JSON.stringify(remoteMessage.notification));
     });
 
     // Handle background messages

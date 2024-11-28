@@ -55,6 +55,11 @@
 	<array>
 		<string>arm64</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>telprompt</string>
+    <string>tel</string> 
+</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

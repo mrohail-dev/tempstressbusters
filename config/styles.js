@@ -11,7 +11,7 @@ const isSmallScreen = viewportWidth < 350;
 const heights = {
 	statusBarHeight: 20,
 	navBarHeight: 60,
-	tabBarHeight: 49,
+	tabBarHeight: 79,
 	filterBarHeight: 30,
 };
 

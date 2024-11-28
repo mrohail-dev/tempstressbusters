@@ -38,11 +38,16 @@ const RenderForm = (props) => {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            style={styles.input}
+                        style={{ ...styles.input, 
+                                borderColor:'#234F82',
+                                borderWidth: 2, 
+                                borderRadius: 8,
+                                marginHorizontal:'0.125%' }}
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
                             placeholder="Email"
+                            placeholderTextColor={'#234F82'}
                             autoCapitalize="none"
                             autoCorrect={false}
                         />
@@ -56,11 +61,15 @@ const RenderForm = (props) => {
                     rules={{ required: 'Password is required' }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            style={styles.input}
-                            onBlur={onBlur}
+                        style={{ ...styles.input, 
+                                borderColor:'#234F82',
+                                borderWidth: 2, 
+                                borderRadius: 8,
+                                marginHorizontal:'0.125%' }}                            onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
                             placeholder="Password"
+                            placeholderTextColor={'#234F82'}
                             autoCapitalize="none"
                             autoCorrect={false}
                             secureTextEntry

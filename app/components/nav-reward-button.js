@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     marginRight: sc.isSmallScreen ? 6 : 10,
     padding: 4,
     paddingLeft: 2,
+    // marginTop:10
   },
   containerBadge: {
     flex: 0,

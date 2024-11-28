@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Animated, StyleSheet, View, Text} from 'react-native';
+import {Animated, StyleSheet, View, Text, FlatList, ScrollView, KeyboardAvoidingView} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -28,6 +28,7 @@ import ChillBeStressbuster from '../containers/chill-bestressbuster';
 import ChillAmStressbuster from '../containers/chill-amstressbuster';
 import Library from '../containers/library';
 import Notes from '../containers/notes';
+import Events from '../containers/events';
 
 const propTypes = {
   transitionOpacity: PropTypes.object.isRequired,
@@ -280,6 +281,10 @@ class Chill extends Component {
     subRoutes = [].concat(...subRoutes);
 
     return (
+      <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <View style={styles.container}>
         <Stack.Navigator
           initialRouteName={routeTypes.CHILL}
@@ -302,13 +307,15 @@ class Chill extends Component {
               </Animated.View>
             )}
           </Stack.Screen>
-          {/* <Stack.Screen
+          <Stack.Screen
 						name={routeTypes.CHILL_FAVORITES}
 						component={ChillFavorites}
 						initialParams={{
 							routes: subRoutes,
 						}}
-					/> */}
+            // options={{presentation:'card'}}            
+					>
+          </Stack.Screen>
           <Stack.Screen
             name={routeTypes.CHILL_REMINDERS}
             component={ChillReminders}
@@ -430,8 +437,15 @@ class Chill extends Component {
             component={Notes}
             initialParams={{navigator: this._navigator, routes: subRoutes}}
           />
+          <Stack.Screen
+            name={routeTypes.EVENTS}
+            component={Events}
+            initialParams={{navigator: this._navigator, routes: subRoutes}}
+          />          
         </Stack.Navigator>
       </View>
+      </KeyboardAvoidingView>
+
     );
   }
 
@@ -442,10 +456,14 @@ class Chill extends Component {
   // Removed 5/29/24
   onPressRow(route, navigation) {
     AnalyticsLib.track('Subview Select', {route: route.id});
+    console.log("0")
+    console.log(route.id)
     if (route.id == routes.breath().id) {
+      console.log("1")
       this.props.breathActions.select();
     } else if (route.id == routes.contact().id) {
       AnalyticsLib.track('Contact');
+      console.log("2")
       const appType = schoolLib.getAppType(
         this.props.accountType,
         this.props.schoolId,
@@ -462,13 +480,18 @@ class Chill extends Component {
       route.id == routes.chillFavorites().id &&
       schoolLib.hasFavoritesTab(this.props.tabs)
     ) {
+      console.log("3")
+      console.log('Favorites id', route.id);
       navigation.navigate('Favorites');
     } else if (route.id == routes.audios().id) {
+      console.log("4")
       if (schoolLib.hasAudiosTab(this.props.tabs)) {
+        console.log("4.1")
         navigation.navigate('Sonic Spa');
       }
     } else {
       // this._navigator.push(route);
+      console.log("5")
       navigation.navigate(route.id);
       // this._navigator = navigation;
     }
@@ -490,6 +513,9 @@ class Chill extends Component {
 
 Chill.propTypes = propTypes;
 const styles = StyleSheet.create({
+  maincontainer:{
+    flex:1,
+  },
   container: {
     flex: 1,
   },

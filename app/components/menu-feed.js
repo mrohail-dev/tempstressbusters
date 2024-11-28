@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   Modal,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -47,7 +48,11 @@ class MenuFeed extends Component {
     this.onPressClose = this.onPressClose.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // if(this._listView.current){
+    //   this._listView.current.scrollToIndex({ animated: true, index: 0 });
+    // }
+  }
 
   render() {
     const dataSource = this.state.params.routes;
@@ -61,8 +66,12 @@ class MenuFeed extends Component {
           ItemSeparatorComponent={this.renderSeparator}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps='handled'
+          // fadingEdgeLength={1}
+          // numColumns={1}
+          // initialNumToRender={30}
+          // initialScrollIndex={3}
         />
-
         {this.renderModal()}
       </View>
     );
@@ -70,7 +79,7 @@ class MenuFeed extends Component {
 
   renderRow({index, item: route, sectionId, rowId}) {
     const isInactive = this.props.isFree && !route.free;
-    console.log(route.title, route.free);
+    // console.log("",route.title, route.free);
     const {navigation} = this.props;
     return (
       <View style={styles.containerRow}>
@@ -79,7 +88,8 @@ class MenuFeed extends Component {
             <TouchableHighlight
               underlayColor={sc.buttonHighlightColor}
               // onPress={() => this.onPressItem(route, navigation)}>
-              onPress={() => this.props.onPressRow(route, navigation)}>
+              onPress={() => this.props.onPressRow(route, navigation)}
+              >
               <View style={styles.buttonRowContainer}>
                 <Image style={styles.imageIcon} source={route.icon} />
                 <Text style={styles.textButton}>{route.title}</Text>
@@ -112,11 +122,21 @@ class MenuFeed extends Component {
       />
     );
   }
+  
+// renderSeparator(index) {
+//   const isLast = index === this.state.params.routes.length - 1;
+//   return (
+//     <View
+//       style={isLast ? styles.separatorLast : styles.separator}
+//     />
+//   );
+// }
+
 
   renderModal() {
     return (
       <Modal
-        animationType={'fade'}
+        // animationType={'fade'}
         onRequestClose={() => this.onPressClose()}
         transparent={true}
         visible={this.state.modalRoute !== undefined}>
@@ -173,6 +193,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     marginRight: 10,
+    // marginBottom: 50,
   },
   containerRow: {
     flexDirection: 'row',
