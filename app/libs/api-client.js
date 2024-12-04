@@ -11,8 +11,7 @@ export async function getWithParams(uri, values) {
 	try {
 		const link = URI(constants.APP_API_HOST + uri).query(values).toString();
 		const options = {method : 'GET'}
-		console.log('link',link)
-		console.log('options',options)
+		console.log('api hit',link, options);
 		const response = await fetch(link, options);
 		const responseText = await response.text();
 		return JSON.parse(responseText);

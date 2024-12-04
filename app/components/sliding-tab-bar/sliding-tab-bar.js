@@ -12,9 +12,9 @@ import base from '../../base-styles';
 
 
 const propTypes = {
-	filter				: PropTypes.string,
-	filters				: PropTypes.array.isRequired,
-	onPressFilter	: PropTypes.func.isRequired,
+	filter: PropTypes.string,
+	filters: PropTypes.array.isRequired,
+	onPressFilter: PropTypes.func.isRequired,
 };
 
 export default class SlidingTabBar extends Component {
@@ -29,38 +29,38 @@ export default class SlidingTabBar extends Component {
 		const styles = this.constructor.styles;
 		const onPress = this.props.onPressFilter;
 		const selectedFilter = this.props.filter;
-    // Note: current longest filiter is reminder's 'Affirmations' 12 characters
-    const isShortFilterTags = this.props.filters.every(filter => filter.length < 15);
+		// Note: current longest filiter is reminder's 'Affirmations' 12 characters
+		const isShortFilterTags = this.props.filters.every(filter => filter.length < 15);
 		const contentContainerStyle = (this.props.filters.length <= 5 && isShortFilterTags)
 			? styles.containerContentFitToWidth
 			: styles.containerContentOverflow;
 
 		return (
-      <View style={styles.container}>
-        <ScrollView
-          horizontal={true}
-          scrollsToTop={false}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={contentContainerStyle}>
+			<View style={styles.container}>
+				<ScrollView
+					horizontal={true}
+					scrollsToTop={false}
+					showsHorizontalScrollIndicator={false}
+					contentContainerStyle={contentContainerStyle}>
 
-          {this.props.filters.map(function(filter, i) {
-            const textStyle = (filter == selectedFilter)
-              ? styles.buttonTextHighlight
-              : styles.buttonText ;
+					{this.props.filters.map(function (filter, i) {
+						const textStyle = (filter == selectedFilter)
+							? styles.buttonTextHighlight
+							: styles.buttonText;
 
-            return (
-              <TouchableHighlight
-                key={filter}
-                style={styles.button}
-                onPress={() => onPress(filter)}
-                underlayColor={sc.buttonHighlightColor}>
-                  <Text style={textStyle}>{filter}</Text>
-              </TouchableHighlight>
-            );
-          })}
+						return (
+							<TouchableHighlight
+								key={filter}
+								style={styles.button}
+								onPress={() => onPress(filter)}
+								underlayColor={sc.buttonHighlightColor}>
+								<Text style={textStyle}>{filter}</Text>
+							</TouchableHighlight>
+						);
+					})}
 
-        </ScrollView>
-      </View>
+				</ScrollView>
+			</View>
 		);
 	}
 

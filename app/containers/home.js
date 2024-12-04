@@ -82,8 +82,10 @@ class Home extends Component {
 					<Stack.Navigator
 						initialRouteName={routeTypes.HOME}
 						screenOptions={{
+
 							headerShown: true,
-							...TransitionPresets.FadeFromBottomAndroid, // For FadeAndroid transition
+							animationEnabled:false,
+							// ...TransitionPresets.FadeFromBottomAndroid, // For FadeAndroid transition
 							header: (props) => <NavBar {...props} title = {route.title} logoUrl={logoUrl}/>
 						}}
 					>

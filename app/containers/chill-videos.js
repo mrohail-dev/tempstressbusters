@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -12,13 +12,13 @@ const propTypes = {
 };
 
 class ChillVideos extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
 		this._feedView = null;
 
 		this.selectFilter = this.selectFilter.bind(this);
-  }
+	}
 
 	UNSAFE_componentWillMount() {
 	}
@@ -30,10 +30,10 @@ class ChillVideos extends Component {
 	UNSAFE_componentWillReceiveProps(nextProps) {
 	}
 
-  render() {
+	render() {
 		const styles = this.constructor.styles;
 		const { data, filter, filters } = this.props;
-    return (
+		return (
 			<View style={styles.container}>
 				<SlidingTabBarView
 					filter={filter}
@@ -41,11 +41,11 @@ class ChillVideos extends Component {
 					onPressFilter={(selected) => this.selectFilter(selected)} />
 				<FeedView
 					ref={component => this._feedView = component}
-          routeId={routes.chillVideos().id}
+					routeId={routes.chillVideos().id}
 					data={data[filter]} />
 			</View>
-    );
-  }
+		);
+	}
 
 
 	////////////////////
@@ -73,12 +73,12 @@ ChillVideos.styles = StyleSheet.create({
 });
 
 export default connect(state => ({
-		data				: state.chillVideos.data,
-		filter			: state.chillVideos.filter,
-		filters			: state.chillVideos.filters,
-		isLoading		: state.chillVideos.is_loading,
-	}),
+	data: state.chillVideos.data,
+	filter: state.chillVideos.filter,
+	filters: state.chillVideos.filters,
+	isLoading: state.chillVideos.is_loading,
+}),
 	dispatch => ({
-		chillVideosActions	: bindActionCreators(chillVideosActions, dispatch),
+		chillVideosActions: bindActionCreators(chillVideosActions, dispatch),
 	})
 )(ChillVideos);

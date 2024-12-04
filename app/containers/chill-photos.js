@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, InteractionManager, Animated } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as chillPhotosActions from '../actions/chill-photos-actions';
@@ -16,7 +16,7 @@ class ChillPhotos extends Component {
     super(props);
 
 		this._feedView = null;
-
+		this._chromeOpacity = new Animated.Value(0);
 		this.selectFilter = this.selectFilter.bind(this);
   }
 
@@ -25,6 +25,14 @@ class ChillPhotos extends Component {
 
 	componentDidMount() {
 		this.selectFilter(this.props.filter);
+		InteractionManager.runAfterInteractions(() => {
+			Animated.timing( this._chromeOpacity, {
+				delay: 0,
+				toValue: 1,
+				duration: 300,
+				useNativeDriver: true,
+			}).start();
+		});
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
@@ -33,8 +41,11 @@ class ChillPhotos extends Component {
   render() {
 		const styles = this.constructor.styles;
 		const { data, filter, filters } = this.props;
+		const chromeAnimatedStyles = [styles.container, {opacity: this._chromeOpacity}];
+
     return (
-			<View style={styles.container}>
+		<Animated.View style={chromeAnimatedStyles}>
+	<View style={styles.container}>
 				<SlidingTabBarView
 					filter={filter}
 					filters={filters}
@@ -44,6 +55,8 @@ class ChillPhotos extends Component {
           routeId={routes.chillPhotos().id}
 					data={data[filter]} />
 			</View>
+		</Animated.View>
+		
     );
   }
 

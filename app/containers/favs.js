@@ -44,7 +44,7 @@ class Favs extends Component {
     const route = routes.chillFavorites();
     return (
       <View style={styles.container}>
-        <NavBar title={route.title} logoUrl={logoUrl} />
+        <NavBar navtitle={route.title} logoUrl={logoUrl} />
         <Stack.Navigator
           initialRouteName={routeTypes.CHILL_FAVORITES}
           screenOptions={{

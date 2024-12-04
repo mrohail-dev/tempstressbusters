@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
@@ -15,8 +15,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import TrackPlayer from 'react-native-track-player';
 // import {
 //   CachedImage,
@@ -49,12 +49,10 @@ const propTypes = {
 class Feed extends Component {
   constructor(props) {
     super(props);
-
     this._listView = null;
     this._backSideOpacity = {};
     this._focusImageOpacity = {};
     this._focusTimer = null;
-
     this.state = {
       selectedObjectForComments: undefined,
       visibleRows: {},
@@ -75,6 +73,23 @@ class Feed extends Component {
     // TrackPlayer.setupPlayer();
   }
 
+  componentDidUpdate(prevProps) {
+
+    // if(prevProps.currentIndex === this.props.currentIndex){
+
+      // this.scrollToIndex(this.props.currentIndex || 0);
+    // }
+  }
+
+  scrollToIndex(index) {
+    if (this._listView) {
+      this._listView.scrollToIndex({
+        index,
+        animated: false,
+      });
+    }
+  }
+
   render() {
     return this.props.data ? this.renderFeedView() : this.renderLoadingView();
   }
@@ -85,21 +100,35 @@ class Feed extends Component {
 
   renderFeedView() {
     // Note: set key to layout type b/c changing numColumns on the fly is not supported.
+    const isDataEmpty = !this.props.data || this.props.data.length === 0;
     return (
       <View style={styles.container}>
-        <FlatList
+        {isDataEmpty ? (
+          <View style={{ justifyContent: "center", flex: 1, alignItems: "center" }}>
+            <Text style={{ color: "white" }}>No data available</Text>
+          </View>
+        ) : <FlatList
           key={this.props.layout}
           data={this.props.data}
           numColumns={this.isRowLayout() ? 1 : 2}
           ref={component => (this._listView = component)}
           automaticallyAdjustContentInsets={false}
-          enableEmptySections={true}
+          enableEmptySections={false}
           renderItem={this.renderItem}
           renderSeparator={this.renderSeparator}
           onChangeVisibleRows={visibleRows => {
-            this.setState({visibleRows});
+            this.setState({ visibleRows });
           }}
-          scrollsToTop={true}
+          onScrollToIndexFailed={(info)=>{
+            console.log("infoooooooo",info)
+            
+          }}
+          onContentSizeChange={()=>{
+            if(this.props.force){
+              this.props.force();
+            }
+
+          }}
           showsVerticalScrollIndicator={false}
           style={styles.container}
           refreshControl={
@@ -111,7 +140,8 @@ class Feed extends Component {
               />
             )
           }
-        />
+        />}
+
 
         {/* { this.state.selectedObjectForComments &&
           <CommentsModal
@@ -121,7 +151,7 @@ class Feed extends Component {
     );
   }
 
-  renderItem({item, index}) {
+  renderItem({ item, index }) {
     const showActivityBar = this.showActivityBar(item);
     const showActivity =
       item.type != strings.OBJECT_TYPE_TEXT &&
@@ -160,17 +190,16 @@ class Feed extends Component {
     } else {
       style.push(styles.cellGrid);
     }
-
     this._backSideOpacity[index] =
       this._backSideOpacity[index] || new Animated.Value(0);
     const backSideStyles = [
       styles.containerBackSide,
-      {opacity: this._backSideOpacity[index]},
+      { opacity: this._backSideOpacity[index] },
     ];
     return (
       <LockedView locked={isInactive} iconTop={5} iconLeft={5}>
         <View key={item.id} style={style}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <View>
               <FeedCell
                 data={item}
@@ -208,7 +237,7 @@ class Feed extends Component {
                           source={{uri:item.image_link}} /> */}
                         <Image
                           style={styles.imageFullscreen}
-                          source={{uri: item.image_link}}
+                          source={{ uri: item.image_link }}
                         />
                       </TouchableWithoutFeedback>
                     </Animated.View>
@@ -316,11 +345,11 @@ class Feed extends Component {
   }
 
   onShowComments(object) {
-    this.setState({selectedObjectForComments: object});
+    this.setState({ selectedObjectForComments: object });
   }
 
   onHideComments(object) {
-    this.setState({selectedObjectForComments: undefined});
+    this.setState({ selectedObjectForComments: undefined });
   }
 
   onInfoShow(object, index) {
@@ -353,7 +382,7 @@ class Feed extends Component {
     this.playChimeSound();
 
     this.state.isFocusImageShown[index] = true;
-    this.setState({isFocusImageShown: this.state.isFocusImageShown});
+    this.setState({ isFocusImageShown: this.state.isFocusImageShown });
 
     this._focusImageOpacity[index] = new Animated.Value(0);
 
@@ -389,7 +418,7 @@ class Feed extends Component {
         useNativeDriver: true,
       }).start(() => {
         this.state.isFocusImageShown[index] = false;
-        this.setState({isFocusImageShown: this.state.isFocusImageShown});
+        this.setState({ isFocusImageShown: this.state.isFocusImageShown });
       });
     });
   }
@@ -412,8 +441,8 @@ class Feed extends Component {
   scrollTo(options) {
     // Note: do not scroll to top if listView has not been created
     if (this._listView) {
-      this._listView.scrollToOffset(options);
-    }
+			this._listView.scrollTo(options);
+		}
   }
 
   ///////////////
@@ -494,5 +523,5 @@ export default connect(
     rewardActions: bindActionCreators(rewardActions, dispatch),
   }),
   null,
-  {forwardRef: true},
+  { forwardRef: true },
 )(Feed);

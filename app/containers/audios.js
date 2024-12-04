@@ -23,7 +23,7 @@ import FeedView from '../components/feed/feed';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const propTypes = {
-	transitionOpacity				: PropTypes.object.isRequired,
+	transitionOpacity: PropTypes.object.isRequired,
 };
 
 const Stack = createStackNavigator();
@@ -31,20 +31,40 @@ const Stack = createStackNavigator();
 class Audios extends Component {
   constructor(props) {
     super(props);
-
+		this._chromeOpacity = new Animated.Value(0);
     this.state = {
       layout: "row",
-    };
+      currentIndex:0,
+      rerender:0
 
+    };
+    this._lastScrollY = 0;
 		this._feedView = null;
     this._playingOpacity = new Animated.Value(1);
 
 		this.selectFilter = this.selectFilter.bind(this);
   }
 
+  componentDidUpdate(prevProps){
+    if(prevProps.filter !== this.props.filter){
+      this.setState({
+        currentIndex:0
+      })
+    }
+  }
+
 	componentDidMount() {
 		this.selectFilter(this.props.filter);
+    
 	}
+  
+  componentWillUnmount(){
+    const isPlaying = this.props.currentAudioMode === 'play';
+    if(isPlaying){
+      this.props.audioActions.stop();
+    }
+  }
+
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (this.props.currentAudioMode !== nextProps.currentAudioMode) {
@@ -72,9 +92,22 @@ class Audios extends Component {
 	//////////////////////
 	// Public Functions //
 	//////////////////////
-
+  scrollToPlayingSong(audioObject) {
+    if (this._feedView && this.props.data[this.props.filter] && audioObject) {
+      const index = this.props.data[this.props.filter].findIndex(
+        (item) => item.id === audioObject.id
+      );
+      // if(this.state.rerender<3){}
+      if (index !== -1) {
+        this._feedView._listView.scrollToIndex({
+          index,
+          animated:false
+        })
+      }
+    }
+  }  
   selectFilter(filter) {
-    const { audiosActions, data } = this.props;
+    const { audiosActions, data, currentAudioObject } = this.props;
   
     // Set the selected filter
     audiosActions.selectFilter(filter);
@@ -82,14 +115,21 @@ class Audios extends Component {
     // Load data if not already present for the selected filter
     if (!data[filter]) {
       audiosActions.loadFeed(filter);
+      console.log("loading")
     } else {
-      console.log(`Data for filter "${filter}" already loaded:`, data[filter]);
+      if(this.props.data){
+        this.scrollToPlayingSong(currentAudioObject);
+
+      }
+      // console.log(`Data for filter "${filter}" already loaded:`, data[filter]);
+      console.log("already loaded")
     }
   
     // Scroll to top if applicable
-    if (this._feedView) {
-      this._feedView.scrollTo({ y: 0, animated: false });
-    }
+    // if (this._feedView && this._lastScrollY === 0) {
+    //   this._feedView.scrollTo({ y: 0, animated: false });
+    //   console.log("scrolling")
+    // }
   }
 	///////////////
 	// Functions //
@@ -103,7 +143,23 @@ class Audios extends Component {
       this.setState({ layout: "row" });
     }
   }
-
+  handleScroll = (event) => {
+    // Save the scroll offset on scroll
+    const offset = event.nativeEvent.contentOffset.y;
+    // if (ref && ref.scrollToOffset) {
+    //   ref.scrollToOffset(offset);
+    // } else {
+    //   console.warn('FeedView ref is not available or does not support scrollToOffset');
+    // }
+    // this._feedView.scrollTo({ offset: offset, animated: false });
+  };
+  scrollToOffset = (offset) => {
+    if (this._feedView && typeof this._feedView.scrollToOffset === 'function') {
+      this._feedView.scrollToOffset({ offset, animated: true });
+    } else {
+      console.warn('FlatList ref is not available or does not support scrollToOffset');
+    }
+  };
   renderPlaying() {
 		const { currentAudioObject, currentAudioMode } = this.props;
     const isPlaying = currentAudioMode === 'play';
@@ -144,10 +200,11 @@ class Audios extends Component {
     const { transitionOpacity, logoUrl, data, filter, filters, currentAudioObject } = this.props;
     const transitionAnimatedStyles = [styles.sceneContainer, { opacity: transitionOpacity }];
     const route = routes.audios();
-  
+    console.log('Rendering FeedView with currentIndex:', this.state.currentIndex);
+
     return (
       <View style={styles.container}>
-        <NavBar title={route.title} logoUrl={logoUrl} />
+        <NavBar navtitle={route.title} logoUrl={logoUrl} />
   
         <Animated.View style={transitionAnimatedStyles}>
           {/* Render tab bar */}
@@ -161,18 +218,28 @@ class Audios extends Component {
           {currentAudioObject && this.renderPlaying()}
   
           {/* Render feed view */}
+
+
           {data[filter] ? (
+            
             <FeedView
-              ref={(component) => (this._feedView = component)}
+              ref={(component) => {
+                (this._feedView = component)
+              }}
+              currentIndex={this.state.currentIndex}
+              // force={()=>{
+              //   this.selectFilter(this.props.filter);
+              // }}
+              
               routeId={route.id}
               data={data[filter]} // Pass loaded data
               layout={this.state.layout}
             />
           ) : (
             // Render a loading or fallback message
-            <View style={styles.loadingContainer}>
-              <Text style={styles.loadingText}>Loading songs...</Text>
-            </View>
+            <View style={{top:"50%"}}>
+            <Text style={{display:"flex",textAlign:"center",alignItems:"center", color:"white"}}>Loading songs...</Text>
+          </View>
           )}
         </Animated.View>
       </View>
@@ -181,6 +248,7 @@ class Audios extends Component {
 }
 
 Audios.propTypes = propTypes;
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -580,22 +648,22 @@ export default connect(state => ({
 //       this._feedView.scrollToOffset({ offset: this.state.scrollOffset, animated: false });
 //     }
 //   };  
-//   scrollToPlayingSong(audioObject) {
-//     if (this._feedView && this.props.data[this.props.filter]) {
-//       const index = this.props.data[this.props.filter].findIndex(
-//         (item) => item.id === audioObject.id
-//       );
+  // scrollToPlayingSong(audioObject) {
+  //   if (this._feedView && this.props.data[this.props.filter]) {
+  //     const index = this.props.data[this.props.filter].findIndex(
+  //       (item) => item.id === audioObject.id
+  //     );
 
-//       if (index !== -1) {
-//         // Scroll the FlatList to the item at the found index
-//         this._feedView.scrollToIndex({
-//           index,
-//           animated: true,
-//           viewPosition: 0, // Align the item at the top
-//         });
-//       }
-//     }
-//   }  
+  //     if (index !== -1) {
+  //       // Scroll the FlatList to the item at the found index
+  //       this._feedView.scrollToIndex({
+  //         index,
+  //         animated: true,
+  //         viewPosition: 0, // Align the item at the top
+  //       });
+  //     }
+  //   }
+  // }  
 
 //   // Function to handle play button press
 //   handlePlayButtonPress(audioObject) {

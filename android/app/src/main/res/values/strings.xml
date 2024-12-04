@@ -1,5 +1,5 @@
 <resources>
-    <string translatable="false" name="app_name">The Chill Factory</string>
+    <string translatable="false" name="app_name">Stressbusters</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
 </resources>

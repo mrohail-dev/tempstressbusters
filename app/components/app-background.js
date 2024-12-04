@@ -125,7 +125,7 @@ class AppBackground extends Component {
     }
     return {
       source: { uri },
-      blurSource: require('../../images/chrome/app-background.png'),
+      blurSource: require('../../images/chrome/appbackground.png'),
       blurRadius: 5,
     };
   }

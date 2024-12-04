@@ -8,7 +8,7 @@ export function play(object) {
 
 	return async(dispatch, getState) => {
     const state = getState();
-
+    console.log("state.audio.pausedPosition",state.audio)
     // Setup player
     // await TrackPlayer.setupPlayer({});
 

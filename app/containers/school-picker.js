@@ -33,8 +33,15 @@ class SchoolPicker extends Component {
     const {isLoading} = this.props;
     return (
       <View style={styles.container}>
+        <Image
+          style={{position: 'absolute', zIndex: 0}}
+          source={require('../../images/stressbusters/backgroundimg.png')}
+        />
         <View style={styles.header}>
-          <Image source={require('../../images/chrome/picker-header.png')} />
+          <Image
+            style={{height: 50, width: 50}}
+            source={require('../../images/chrome/ic_launcher.png')}
+          />
           <Text style={styles.headerText}>Choose Your Location</Text>
           <View style={styles.headerSeparator} />
         </View>

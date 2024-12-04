@@ -24,7 +24,7 @@ export default class StressbustersApp extends Component {
   render() {
     return (
       <Provider store={store}>
-        <View style={{flex:1}}>
+        <View style={{flex: 1}}>
           <App
             interface={this.props.interface}
             schoolId={this.props.schoolId}

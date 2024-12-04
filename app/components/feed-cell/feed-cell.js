@@ -32,13 +32,13 @@ import FeedCellCommentView from '../feed-cell/feed-cell-comment';
 import styles from './feed-cell-styles';
 
 const propTypes = {
-	data			            : PropTypes.any,
-	navigation				: PropTypes.any,
-	layout		            : PropTypes.any,
-	isBackSide			      : PropTypes.any,
-	onPressShortcut	      : PropTypes.any,
-	onPressCommentReply	  : PropTypes.any,
-	onPressNoteEdit   	  : PropTypes.any,
+	data: PropTypes.any,
+	navigation: PropTypes.any,
+	layout: PropTypes.any,
+	isBackSide: PropTypes.any,
+	onPressShortcut: PropTypes.any,
+	onPressCommentReply: PropTypes.any,
+	onPressNoteEdit: PropTypes.any,
 };
 
 class FeedCell extends Component {
@@ -48,10 +48,10 @@ class FeedCell extends Component {
 
 		this.onPressReminder = this.onPressReminder.bind(this);
 	}
-	
+
 	render() {
 		const { data, isBackSide, navigation } = this.props;
-		
+
 		// Case: default case
 		if (isBackSide) {
 			return this.renderBackSide();
@@ -62,9 +62,9 @@ class FeedCell extends Component {
 				<TouchableHighlight
 					onPress={() => this.props.onPressShortcut(data, navigation)}
 					underlayColor={sc.buttonHighlightColor}>
-          <View>
-            { this.renderCell() }
-          </View>
+					<View>
+						{this.renderCell()}
+					</View>
 				</TouchableHighlight>
 			);
 		}
@@ -78,13 +78,13 @@ class FeedCell extends Component {
 		const { data } = this.props;
 		switch (data.type) {
 			case strings.OBJECT_TYPE_MESSAGE:
-        if (data.image_link) {
-          return this.renderPhoto();
-        }
-        else if (data.template) {
-          return this.renderGraphicText();
-        }
-        return this.renderPlain();
+				if (data.image_link) {
+					return this.renderPhoto();
+				}
+				else if (data.template) {
+					return this.renderGraphicText();
+				}
+				return this.renderPlain();
 			case strings.OBJECT_TYPE_TEXT: return this.renderText();
 			case strings.OBJECT_TYPE_VIDEO: return this.renderVideo();
 			case strings.OBJECT_TYPE_PHOTO: return this.renderPhoto();
@@ -123,7 +123,7 @@ class FeedCell extends Component {
 						<TouchableHighlight
 							onPress={() => this.onPressOpenLink()}
 							underlayColor={sc.buttonHighlightColor}>
-							{ contentView() }
+							{contentView()}
 						</TouchableHighlight>
 					</View>
 				</View>
@@ -133,7 +133,7 @@ class FeedCell extends Component {
 		return (
 			<View style={styles.container}>
 				<View style={styles.textContainer}>
-					{ contentView() }
+					{contentView()}
 				</View>
 			</View>
 		);
@@ -143,7 +143,7 @@ class FeedCell extends Component {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellTextView data={data} />
+				<FeedCellTextView data={data} />
 			</View>
 		);
 	}
@@ -152,89 +152,89 @@ class FeedCell extends Component {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellGraphicTextView data={data} />
-      </View>
-    );
+				<FeedCellGraphicTextView data={data} />
+			</View>
+		);
 	}
 
 	renderPhoneContact() {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellPhoneContactView data={data} />
-      </View>
-    );
+				<FeedCellPhoneContactView data={data} />
+			</View>
+		);
 	}
 
 	renderPhoneFriend() {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellPhoneFriendView data={data} />
-      </View>
-    );
+				<FeedCellPhoneFriendView data={data} />
+			</View>
+		);
 	}
 
 	renderNote() {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellNoteView
-          data={data}
-          onPressNoteEdit={this.props.onPressNoteEdit} />
-      </View>
-    );
+				<FeedCellNoteView
+					data={data}
+					onPressNoteEdit={this.props.onPressNoteEdit} />
+			</View>
+		);
 	}
 
 	renderComment() {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellCommentView
-          data={data}
-          onPressCommentReply={this.props.onPressCommentReply} />
-      </View>
-    );
+				<FeedCellCommentView
+					data={data}
+					onPressCommentReply={this.props.onPressCommentReply} />
+			</View>
+		);
 	}
 
 	renderBadge() {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellBadgeView data={data} />
-      </View>
-    );
+				<FeedCellBadgeView data={data} />
+			</View>
+		);
 	}
 
 	renderPhoto() {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellPhotoView data={data} />
-      </View>
-    );
+				<FeedCellPhotoView data={data} />
+			</View>
+		);
 	}
 
 	renderAudio() {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        { this.props.layout === "grid"
-            ? ( <FeedCellAudioGridView data={data} /> )
-            : ( <FeedCellAudioView data={data} /> )
-        }
-      </View>
-    );
+				{this.props.layout === "grid"
+					? (<FeedCellAudioGridView data={data} />)
+					: (<FeedCellAudioView data={data} />)
+				}
+			</View>
+		);
 	}
 
 	renderVideo() {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellVideoView data={data} />
+				<FeedCellVideoView data={data} />
 			</View>
-    );
-  }
+		);
+	}
 
 	renderEvent() {
 		const styles = this.constructor.styles;
@@ -279,8 +279,8 @@ class FeedCell extends Component {
 		const styles = this.constructor.styles;
 		const { data, enabledReminders } = this.props;
 		const found = enabledReminders.find(({ object }) => object.id === data.id);
-    const isEnabled = found;
-    const isVoiceEnabled = found && found.sound;
+		const isEnabled = found;
+		const isVoiceEnabled = found && found.sound;
 		const imageSrc = isEnabled
 			? require('../../../images/cell/reminder-hl-64.png')
 			: require('../../../images/cell/reminder-64.png');
@@ -292,21 +292,21 @@ class FeedCell extends Component {
 				<View style={styles.reminderTextContainer}>
 					<Text style={styles.reminderTextTitle}>{data.title}</Text>
 				</View>
-        { constants.REMINDER_VOICES[data.title] &&
-          <TouchableHighlight
-            onPress={() => this.onPressReminder(isVoiceEnabled, constants.REMINDER_VOICES[data.title])}
-            underlayColor={sc.buttonHighlightColor}>
-            <Image
-              style={styles.reminderControlImage}
-              source={voiceSrc} />
-          </TouchableHighlight> }
-        <TouchableHighlight
-          onPress={() => this.onPressReminder(isEnabled)}
-          underlayColor={sc.buttonHighlightColor}>
-          <Image
-            style={styles.reminderControlImage}
-            source={imageSrc} />
-          </TouchableHighlight>
+				{constants.REMINDER_VOICES[data.title] &&
+					<TouchableHighlight
+						onPress={() => this.onPressReminder(isVoiceEnabled, constants.REMINDER_VOICES[data.title])}
+						underlayColor={sc.buttonHighlightColor}>
+						<Image
+							style={styles.reminderControlImage}
+							source={voiceSrc} />
+					</TouchableHighlight>}
+				<TouchableHighlight
+					onPress={() => this.onPressReminder(isEnabled)}
+					underlayColor={sc.buttonHighlightColor}>
+					<Image
+						style={styles.reminderControlImage}
+						source={imageSrc} />
+				</TouchableHighlight>
 			</View>
 		);
 	}
@@ -330,9 +330,9 @@ class FeedCell extends Component {
 		const { data } = this.props;
 		return (
 			<View style={styles.container}>
-        <FeedCellBackSideView data={data} />
-      </View>
-    );
+				<FeedCellBackSideView data={data} />
+			</View>
+		);
 	}
 
 	////////////////////
@@ -352,14 +352,14 @@ class FeedCell extends Component {
 	onPressReminder(isEnabled, sound) {
 		const { data } = this.props;
 
-    // Case 1: enabled => remove reminder
-    if (isEnabled) {
-      this.props.chillRemindersActions.removeReminder(data);
-    }
-    // Case 2: disabled => show form
-    else {
-      this.props.chillRemindersActions.selectObject(data, sound);
-    }
+		// Case 1: enabled => remove reminder
+		if (isEnabled) {
+			this.props.chillRemindersActions.removeReminder(data);
+		}
+		// Case 2: disabled => show form
+		else {
+			this.props.chillRemindersActions.selectObject(data, sound);
+		}
 	}
 }
 
@@ -367,14 +367,14 @@ FeedCell.propTypes = propTypes;
 FeedCell.styles = StyleSheet.create(styles);
 
 export default connect(state => ({
-		isAppActive					  : state.app.is_app_active,
-		schoolId						  : state.app.school.id,
-		isStressbustersHidden	: state.app.school.is_me_stressbusters_hidden,
-		isNewInstall				  : state.app.is_new_install,
-		enabledReminders	    : state.chillReminders.enabled_reminders,
-	}),
+	isAppActive: state.app.is_app_active,
+	schoolId: state.app.school.id,
+	isStressbustersHidden: state.app.school.is_me_stressbusters_hidden,
+	isNewInstall: state.app.is_new_install,
+	enabledReminders: state.chillReminders.enabled_reminders,
+}),
 	dispatch => ({
-		chillRemindersActions : bindActionCreators(chillRemindersActions, dispatch),
-		activityActions	  		: bindActionCreators(activityActions, dispatch),
+		chillRemindersActions: bindActionCreators(chillRemindersActions, dispatch),
+		activityActions: bindActionCreators(activityActions, dispatch),
 	})
 )(FeedCell);

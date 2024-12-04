@@ -17,6 +17,8 @@ end
 target 'stressbuster' do
   config = use_native_modules!
   use_frameworks! :linkage => :static
+
+  $RN_FABRIC_ENABLED = true
   $RNFirebaseAsStaticFramework = true
 
   use_react_native!(

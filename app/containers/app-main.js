@@ -308,7 +308,6 @@ class AppMain extends Component {
     return (
       <NavigationContainer theme={navTheme}>
         <Tab.Navigator
-        
           screenOptions={({route, navigation}) => ({
             tabBarIcon: ({focused}) => {
               const routes = (this.props.school.tabs || []).find(
@@ -346,10 +345,10 @@ class AppMain extends Component {
             headerShown: false,
             // tabBarItemStyle: styles.tabSceneStyle
           })}>
-            {console.log("blblblb",this.props.school.tabs)}
           {this.props.school.tabs.map(tab => (
             <Tab.Screen
               name={tab.title}
+              initialParams={{fromchill:false}}
               component={this.getTabComponent(tab.id, this._transitionOpacity)}
             />
           ))}
@@ -456,9 +455,10 @@ class AppMain extends Component {
 AppMain.propTypes = propTypes;
 const styles = StyleSheet.create({
   tabSceneStyle: {
-    // marginBottom: 10,
+    marginBottom: 10,
     paddingTop: isIphoneX() ? 15 : 0,
     paddingBottom: sc.tabBarHeight + getBottomSpace() - 3,
+    // height: '100%',
   },
   tabBarStyle: {
     backgroundColor: sc.tabBarBackgroundColor,

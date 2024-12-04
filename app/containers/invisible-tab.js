@@ -42,8 +42,9 @@ class InvisibleTab extends Component {
 		const route = routes.chillAbout();
     return (
 			<View style={styles.container}>
-				<NavBar title={route.title} logoUrl={logoUrl}/>
+				<NavBar navtitle={route.title} logoUrl={logoUrl}/>
 					<Stack.Navigator
+					
 						initialRouteName={routeTypes.CHILL_ABOUT}
 						screenOptions={{
 							headerShown: false,

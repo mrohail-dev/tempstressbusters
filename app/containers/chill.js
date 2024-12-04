@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Animated, StyleSheet, View, Text, FlatList, ScrollView, KeyboardAvoidingView} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {Animated, StyleSheet, View, Text, FlatList, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
+import {createStackNavigator, TransitionSpecs, CardStyleInterpolators } from '@react-navigation/stack';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import RNCommunications from 'react-native-communications';
@@ -220,6 +220,7 @@ class Chill extends Component {
       }
     }
   }
+  
 
   render() {
     const {transitionOpacity, logoUrl, isStressbustersHidden, hasLibraries} =
@@ -240,7 +241,6 @@ class Chill extends Component {
         routes.chillVideos(),
         routes.chillPhotos(),
         routes.breath(),
-
         routes.chillFavorites(),
         routes.chillReminders(),
         routes.chillHealthRewards(),
@@ -258,6 +258,7 @@ class Chill extends Component {
         routes.chillHealthRewards(),
         routes.audios(),
         routes.chillVideos(),
+        routes.help(),
         routes.chillPhotos(),
         hasLibraries ? [routes.library(this._schoolId)] : [],
         this._isSchool ? [routes.events()] : [],
@@ -290,12 +291,14 @@ class Chill extends Component {
           initialRouteName={routeTypes.CHILL}
           screenOptions={{
             headerShown: true,
+            animationEnabled:false,
             header: props => <NavBar {...props} logoUrl={logoUrl} />,
           }}
           style={styles.navigator}>
           <Stack.Screen
             name={routeTypes.CHILL}
             // component={MenuFeed}
+            
             initialParams={{
               routes: subRoutes,
               schoolId: this.props.schoolId,
@@ -303,7 +306,7 @@ class Chill extends Component {
             }}>
             {props => (
               <Animated.View style={transitionAnimatedStyles}>
-                <MenuFeed {...props} onPressRow={this.onPressRow} />
+                <MenuFeed {...props}  onPressRow={this.onPressRow} />
               </Animated.View>
             )}
           </Stack.Screen>
@@ -456,14 +459,12 @@ class Chill extends Component {
   // Removed 5/29/24
   onPressRow(route, navigation) {
     AnalyticsLib.track('Subview Select', {route: route.id});
-    console.log("0")
+    console.log("0",route)
     console.log(route.id)
     if (route.id == routes.breath().id) {
-      console.log("1")
       this.props.breathActions.select();
     } else if (route.id == routes.contact().id) {
       AnalyticsLib.track('Contact');
-      console.log("2")
       const appType = schoolLib.getAppType(
         this.props.accountType,
         this.props.schoolId,
@@ -480,7 +481,6 @@ class Chill extends Component {
       route.id == routes.chillFavorites().id &&
       schoolLib.hasFavoritesTab(this.props.tabs)
     ) {
-      console.log("3")
       console.log('Favorites id', route.id);
       navigation.navigate('Favorites');
     } else if (route.id == routes.audios().id) {
@@ -489,7 +489,10 @@ class Chill extends Component {
         console.log("4.1")
         navigation.navigate('Sonic Spa');
       }
-    } else {
+    } else if(route.id==routes.help().id){
+      navigation.navigate('Get Help');
+    }
+    else {
       // this._navigator.push(route);
       console.log("5")
       navigation.navigate(route.id);

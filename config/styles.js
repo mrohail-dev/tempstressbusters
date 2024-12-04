@@ -24,7 +24,7 @@ const backgroundColors = {
 	appBackgroundColor: 'rgba(0, 0, 0, 0.3)',
 	navBarBackgroundColor: 'rgba(0, 0, 0, 0.0)',
 	filterBarBackgroundColor: 'rgba(0, 0, 20, 0.5)',
-	tabBarBackgroundColor: 'rgba(0, 0, 20, 0.5)',
+	tabBarBackgroundColor: 'rgba(0, 0, 20, 1)',
 	activityBarBackgroundColor: 'rgba(0, 0, 20, 0.6)',
 	pickerBackgroundColor: 'rgba(0, 0, 0, 0.5)',
 	cameraOverlayColor: 'rgba(0, 0, 0, 0.7)',

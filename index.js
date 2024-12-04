@@ -16,7 +16,6 @@ import notifee, {
 var EventEmitter = require('eventemitter3');
 export const eventEmitter = new EventEmitter();
 const onMessageReceived = async message => {
-  console.log('messagemessage',message)
   notifee.createChannel({
     id: 'default',
     name: 'Default Channel',

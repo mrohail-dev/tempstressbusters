@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Animated, Image, StyleSheet, View, Text } from 'react-native';
 import { bindActionCreators } from 'redux';
@@ -9,19 +9,19 @@ import sc from '../../config/styles';
 import NavBar from '../libs/nav-bar';
 import SlidingTabBarView from '../components/sliding-tab-bar/sliding-tab-bar';
 import FeedView from '../components/feed/feed';
+import { checkIfConfigIsValid } from 'react-native-reanimated/lib/typescript/animation/springUtils';
 
 const propTypes = {
-	transitionOpacity				: PropTypes.object.isRequired,
+	transitionOpacity: PropTypes.object.isRequired,
 };
 
 class Events extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
 		this._feedView = null;
-
 		this.selectFilter = this.selectFilter.bind(this);
-  }
+	}
 
 	UNSAFE_componentWillMount() {
 	}
@@ -33,13 +33,15 @@ class Events extends Component {
 	UNSAFE_componentWillReceiveProps(nextProps) {
 	}
 
-  render() {
+	render() {
 		const styles = this.constructor.styles;
-		const { transitionOpacity, logoUrl, data, filter, filters } = this.props;
-		const transitionAnimatedStyles = [styles.sceneContainer, {opacity: transitionOpacity}];
+		
+		const { transitionOpacity, logoUrl, fromchill, data, filter, filters } = this.props;
+		const transitionAnimatedStyles = [styles.sceneContainer, { opacity: transitionOpacity }];
 		const route = routes.events();
-    return (
+		return (
 			<View style={styles.container}>
+				{this.props.route && this.props.route.params && this.props.route.params.fromchill==false && <NavBar navtitle={route.title} logoUrl={logoUrl} />}
 				<Animated.View style={transitionAnimatedStyles}>
 					<SlidingTabBarView
 						filter={filter}
@@ -51,8 +53,8 @@ class Events extends Component {
 						data={data[filter]} />
 				</Animated.View>
 			</View>
-    );
-  }
+		);
+	}
 
 
 	////////////////////
@@ -83,13 +85,13 @@ Events.styles = StyleSheet.create({
 });
 
 export default connect(state => ({
-		logoUrl			: state.app.school.logo_image_link,
-		data				: state.events.data,
-		filter			: state.events.filter,
-		filters			: state.events.filters,
-		isLoading		: state.events.is_loading,
-	}),
+	logoUrl: state.app.school.logo_image_link,
+	data: state.events.data,
+	filter: state.events.filter,
+	filters: state.events.filters,
+	isLoading: state.events.is_loading,
+}),
 	dispatch => ({
-		eventsActions	: bindActionCreators(eventsActions, dispatch),
+		eventsActions: bindActionCreators(eventsActions, dispatch),
 	})
 )(Events);

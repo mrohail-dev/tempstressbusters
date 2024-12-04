@@ -89,7 +89,6 @@ class AccessCodeModal extends Component {
   async componentDidMount() {
     // load production
     this.subscriptions = await RNIap.getSubscriptions(itemSkus);
-    console.log(this.subscriptions);
 
     // add IAP listeners
     this.purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(purchase => {

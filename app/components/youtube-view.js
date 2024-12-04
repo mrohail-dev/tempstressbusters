@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
-	Dimensions,
+  Dimensions,
   Image,
   Platform,
   StyleSheet,
-	TouchableWithoutFeedback,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -15,38 +15,40 @@ import { connect } from 'react-redux';
 import * as rewardActions from '../actions/reward-actions';
 
 const propTypes = {
-	youtubeId			    : PropTypes.any,
-	youtubeList	      : PropTypes.any,
-	startTime	        : PropTypes.any,
-	onPlay	          : PropTypes.any,
-	onEnded	          : PropTypes.any,
+  youtubeId: PropTypes.any,
+  youtubeList: PropTypes.any,
+  startTime: PropTypes.any,
+  onPlay: PropTypes.any,
+  onEnded: PropTypes.any,
 };
 
 const rewardTimeMark = 60;
 
 class YouTubeView extends Component {
 
-	constructor(props) {
-		super(props);
+
+  constructor(props) {
+    super(props);
 
     this._webView;
     this.state = {
       // Note: do not render loader for Android, b/c loader triggers YouTube
       // video not start playing
-      isWebViewLoaded   : false,
-      isPlaying         : false,
-      isRewarded        : this.props.startTime > rewardTimeMark,
+      isWebViewLoaded: false,
+      isPlaying: false,
+      isRewarded: this.props.startTime > rewardTimeMark,
     };
-	}
+  }
 
-	render() {
-		return (
-      <View style={{flex:1}} >
-        { this._renderVideo() }
-        { ! this.state.isPlaying && this._renderPlayButton() }
+  render() {
+    console.log("running");
+    return (
+      <View style={{ flex: 1 }} >
+        {this._renderVideo()}
+        {/* {!this.state.isPlaying && this._renderPlayButton()} */}
         { /* this.state.isPlaying && this._renderPausedButton() */}
       </View>
-		);
+    );
   }
 
   _renderPlayButton() {
@@ -55,30 +57,30 @@ class YouTubeView extends Component {
     const width = Dimensions.get('window').width - 20;
     const height = width / 1.5;
     const left = 0;
-//    const widthOri = Dimensions.get('window').width - 20;
-//    const height = widthOri / 1.5;
-//    const width = height * 1.777778;
-//    const left = (widthOri - width) / 2;
+    //    const widthOri = Dimensions.get('window').width - 20;
+    //    const height = widthOri / 1.5;
+    //    const width = height * 1.777778;
+    //    const left = (widthOri - width) / 2;
     return (
-      <View style={{top:0, left:0, right:0, bottom:0, position:'absolute'}} >
+      <View style={{ top: 0, left: 0, right: 0, bottom: 0, position: 'absolute' }} >
         <TouchableWithoutFeedback
-          style={{flex:1}}
+          style={{ flex: 1 }}
           onPress={() => {
             this._webView.injectJavaScript(`
               ytplayer.playVideo();
             `);
             this.props.onPlay();
-            this.setState({isPlaying:true});
+            this.setState({ isPlaying: true });
           }}
         >
-          <View style={{flex:1}}>
+          <View style={{ flex: 1 }}>
             <Image
-              style={{left, width, height}}
-              resizeMode={ 'cover' }
-              source={{uri:'https://img.youtube.com/vi/'+youtubeId+'/0.jpg'}} />
-            <View style={{top:0, bottom:0, left:0, right:0, position:'absolute', alignItems:'center', justifyContent:'center'}}>
+              style={{ left, width, height }}
+              resizeMode={'cover'}
+              source={{ uri: 'https://img.youtube.com/vi/' + youtubeId + '/0.jpg' }} />
+            <View style={{ top: 0, bottom: 0, left: 0, right: 0, position: 'absolute', alignItems: 'center', justifyContent: 'center' }}>
               <Image
-                style={{width:92, height:92}}
+                style={{ width: 92, height: 92 }}
                 source={require('../../images/chrome/youtube-256.png')} />
             </View>
           </View>
@@ -89,7 +91,7 @@ class YouTubeView extends Component {
 
   _renderPausedButton() {
     return (
-      <View style={{top:0, left:0, right:0, bottom:40, position:'absolute', justifyContent:'center', alignItems:'center'}}>
+      <View style={{ top: 0, left: 0, right: 0, bottom: 40, position: 'absolute', justifyContent: 'center', alignItems: 'center' }}>
         <TouchableWithoutFeedback
           onPress={() => {
             this._webView.injectJavaScript(`
@@ -99,15 +101,15 @@ class YouTubeView extends Component {
             `);
           }}
         >
-          <View style={{top:0, left:0, right:0, bottom:0, position:'absolute'}} />
+          <View style={{ top: 0, left: 0, right: 0, bottom: 0, position: 'absolute' }} />
         </TouchableWithoutFeedback>
       </View>
     );
   }
 
-	_renderVideo() {
+  _renderVideo() {
     const { isAppActive } = this.props;
-		const html = (isAppActive)
+    const html = (isAppActive)
       ? this._getActiveWebViewHtml()
       : this._getInactiveWebViewHtml();
 
@@ -125,102 +127,109 @@ class YouTubeView extends Component {
         injectedJavaScriptForMainFrameOnly={false}
         scalesPageToFit={(Platform.OS !== 'ios')}
         scrollEnabled={false}
-        style={{flex:1}}
+        style={{ flex: 1 }}
         mediaPlaybackRequiresUserAction={false}
         onMessage={(e) => {
           // Handle YouTube event
           let message;
           try {
             message = JSON.parse(decodeURIComponent(decodeURIComponent(e.nativeEvent.data)));
-          } catch(err) {
+          } catch (err) {
             return;
           }
           if (message.action == 'onPageLoaded') {
-            this.setState({isWebViewLoaded:true});
+            this.setState({ isWebViewLoaded: true });
           }
           else if (message.action == 'onPlay') {
           }
           else if (message.action == 'onPause') {
           }
           else if (message.action == 'onEnded') {
-            this.setState({isPlaying:false});
+            this.setState({ isPlaying: false });
             this.props.onEnded();
             this._webView.injectJavaScript(`
               ytplayer.stopVideo(0);
             `);
           }
           else if (message.action == 'onCurrentTime') {
-            if (( ! this.state.isRewarded) && (message.time > rewardTimeMark)) {
+            if ((!this.state.isRewarded) && (message.time > rewardTimeMark)) {
               this.props.rewardActions.earnViaVideoPlay();
-              this.setState({isRewarded:true});
+              this.setState({ isRewarded: true });
             }
           }
         }}
-        source={{html:html}} />
+        source={{ html: html }} />
     );
   }
 
   _getActiveWebViewHtml() {
     const { youtubeId, youtubeList, startTime } = this.props;
     const startTimeInt = Math.floor(startTime);
-
-    // Temporarily disable YouTube list b/c of the bug where the YouTube
-    // player shows the "Video unavailable" error after the video finish
-    // playing
-    const youtubeListQs = "";
-    //const youtubeListQs = youtubeId
-    //  ? `list=RDEMTB63z0qhnihj3oNEZqO0jQ&`
-    //  : "";
-
+  
+    const youtubeListQs = ""; // Temporarily disabled as per your comment
+  
     return `
       <html>
-        <body style='margin:0px;padding:0px;background-color:black;'>
+        <head>
+          <style>
+            body {
+              margin: 0;
+              padding: 0;
+              background-color: black;
+            }
+            .video-container {
+              position: relative;
+              width: 100%;
+              padding-bottom: 56.25%; /* 16:9 aspect ratio */
+              height: 0;
+            }
+            .video-container iframe {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100vw;
+              height: 100vh;
+              border: none;
+            }
+          </style>
+        </head>
+        <body>
           <script type='text/javascript' src='http://www.youtube.com/iframe_api'></script>
           <script type='text/javascript'>
-
+  
             function onYouTubeIframeAPIReady() {
-              ytplayer=new YT.Player('playerId', {
+              ytplayer = new YT.Player('playerId', {
                 events: {
-                  onReady:onPlayerReady,
-                  onStateChange:onPlayerStateChange,
+                  onReady: onPlayerReady,
+                  onStateChange: onPlayerStateChange,
                 },
-              })
+              });
             }
-
-            function onPlayerReady(a) {
-            window.ReactNativeWebView.postMessage(JSON.stringify({
-              action: 'onPageLoaded',
-            }));
-
-
+  
+            function onPlayerReady(event) {
+              window.ReactNativeWebView.postMessage(JSON.stringify({
+                action: 'onPageLoaded',
+              }));
+  
               window.setInterval(onInterval, 5000);
-
-//              ytplayer.playVideo();
-//              document.getElementById('button').onclick = function() {
-//                (ytplayer.getPlayerState() == YT.PlayerState.PLAYING)
-//                  ? ytplayer.pauseVideo()
-//                  : ytplayer.playVideo();
-//              }
             }
-
-            function onPlayerStateChange(a) {
-              if (ytplayer.getPlayerState() == YT.PlayerState.PLAYING) {
+  
+            function onPlayerStateChange(event) {
+              if (ytplayer.getPlayerState() === YT.PlayerState.PLAYING) {
                 window.ReactNativeWebView.postMessage(JSON.stringify({
                   action: 'onPlay',
                 }));
-              }
-              else if (ytplayer.getPlayerState() == YT.PlayerState.PAUSED) {
+              } else if (ytplayer.getPlayerState() === YT.PlayerState.PAUSED) {
                 window.ReactNativeWebView.postMessage(JSON.stringify({
                   action: 'onPause',
                 }));
-              }
-              else if (ytplayer.getPlayerState() == YT.PlayerState.ENDED) {
+              } else if (ytplayer.getPlayerState() === YT.PlayerState.ENDED) {
                 window.ReactNativeWebView.postMessage(JSON.stringify({
                   action: 'onEnded',
                 }));
               }
             }
-
+  
             function onInterval() {
               if (ytplayer) {
                 window.ReactNativeWebView.postMessage(JSON.stringify({
@@ -229,15 +238,17 @@ class YouTubeView extends Component {
                 }));
               }
             }
-
           </script>
-          <div style='width:100%; height:100%; position:relative;'>
-            <iframe id='playerId' type='text/html' width='100%' height='100%' src='https://www.youtube.com/embed/${youtubeId}?${youtubeListQs}enablejsapi=1&playsinline=1&rel=0&modestbranding=1&autohide=1&autoplay=1&controls=1&iv_load_policy=3' frameborder='0' allowfullscreen></iframe>
+          <div class="video-container">
+            <iframe id="playerId"
+              src="https://www.youtube.com/embed/${youtubeId}?${youtubeListQs}enablejsapi=1&playsinline=1&rel=0&modestbranding=1&autohide=1&controls=1&iv_load_policy=3"
+              allowfullscreen></iframe>
           </div>
         </body>
       </html>
     `;
   }
+  
 
   _getInactiveWebViewHtml() {
     return "<html><body style='background-color:black'></body></html>";
@@ -249,11 +260,11 @@ YouTubeView.styles = StyleSheet.create({
 });
 
 export default connect(state => ({
-		isAppActive					  : state.app.is_app_active,
-	}),
-	dispatch => ({
-		rewardActions	    	: bindActionCreators(rewardActions, dispatch),
-	}),
-	null,
-	{ forwardRef: true }
+  isAppActive: state.app.is_app_active,
+}),
+  dispatch => ({
+    rewardActions: bindActionCreators(rewardActions, dispatch),
+  }),
+  null,
+  { forwardRef: true }
 )(YouTubeView);

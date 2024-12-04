@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Animated, Image, StyleSheet, View, Text, TouchableHighlight } from 'react-native';
 import { bindActionCreators } from 'redux';
@@ -14,40 +14,40 @@ import { NavigationContainer } from '@react-navigation/native';
 import { navTheme } from './app-main';
 
 const propTypes = {
-	transitionOpacity				: PropTypes.object.isRequired,
+	transitionOpacity: PropTypes.object.isRequired,
 };
 
 const Stack = createStackNavigator();
 class Reminders extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
 		// this._navigator = null;
-  }
+	}
 
-  render() {
+	render() {
 		const { transitionOpacity, logoUrl } = this.props;
-		const transitionAnimatedStyles = [styles.sceneContainer, {opacity: transitionOpacity}];
+		const transitionAnimatedStyles = [styles.sceneContainer, { opacity: transitionOpacity }];
 		const route = routes.chillReminders();
-    return (
+		return (
 			<View style={styles.container}>
-   			    <NavBar title={route.title} logoUrl={logoUrl}/>
+				<NavBar navtitle={route.title} logoUrl={logoUrl} />
 				<Stack.Navigator
 					initialRouteName={routeTypes.CHILL_REMINDERS}
 					screenOptions={{
 						headerShown: false,
 					}}
-					// style={styles.navigator}
+				// style={styles.navigator}
 				>
 					<Stack.Screen
 						name={routeTypes.CHILL_REMINDERS}
 						component={ChillReminders}
-						// initialParams={{ navigator: navigator }}
+					// initialParams={{ navigator: navigator }}
 					/>
 				</Stack.Navigator>
 			</View>
-    );
-  }
+		);
+	}
 
 
 	////////////////////
@@ -79,11 +79,11 @@ const styles = StyleSheet.create({
 });
 
 export default connect(state => ({
-		logoUrl			: state.app.school.logo_image_link,
-	}),
+	logoUrl: state.app.school.logo_image_link,
+}),
 	dispatch => ({
 		chillRemindersActions: bindActionCreators(chillRemindersActions, dispatch),
 	}),
 	null,
-	{ forwardRef: true}
+	{ forwardRef: true }
 )(Reminders);

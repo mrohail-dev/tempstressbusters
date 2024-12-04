@@ -54,19 +54,26 @@ class MenuFeed extends Component {
     // }
   }
 
+  componentDidUpdate(){
+    console.log("menu feed component update")
+  }
+
   render() {
     const dataSource = this.state.params.routes;
     return (
-      <View style={styles.container}>
+      <View style={{flex:1}}>
         <FlatList
           ref={component => (this._listView = component)}
           data={dataSource}
           keyExtractor={(item, index) => index.toString()}
           renderItem={this.renderRow}
+          nestedScrollEnabled={true}
+          scrollEnabled={true}
           ItemSeparatorComponent={this.renderSeparator}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps='handled'
+          showsVerticalScrollIndicator={true}
+          contentContainerStyle={{ marginLeft: 10,
+            marginRight: 10,}}
+          keyboardShouldPersistTaps='always'
           // fadingEdgeLength={1}
           // numColumns={1}
           // initialNumToRender={30}
@@ -136,7 +143,7 @@ class MenuFeed extends Component {
   renderModal() {
     return (
       <Modal
-        // animationType={'fade'}
+        animationType={'fade'}
         onRequestClose={() => this.onPressClose()}
         transparent={true}
         visible={this.state.modalRoute !== undefined}>

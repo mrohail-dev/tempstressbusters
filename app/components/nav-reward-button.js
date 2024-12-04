@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
 		// note: reward point # is bottom clipped on Android if set to 3
     marginRight: sc.isSmallScreen ? 6 : 10,
     padding: 4,
-    paddingLeft: 2,
+    // paddingRight: 2,
+    // paddingLeft: 2,
     // marginTop:10
   },
   containerBadge: {

@@ -4,6 +4,8 @@ import * as apiClient from '../libs/api-client';
 export function loadFeed(libraryFeature) {
 	return async(dispatch, getState) => {
     // initialize filters
+
+    console.log("myschool",getState().app.school);
 		const libraries = getState().app.school[libraryFeature];
 		dispatch({
       type		  : types.LIBRARY_FEED_LOAD,
@@ -14,6 +16,7 @@ export function loadFeed(libraryFeature) {
 		const path = 'get_library_items_all';
 		const schoolId = getState().app.school.id;
 		const response = await apiClient.getWithParams(path, { school_id:schoolId, libraryFeature });
+    console.log("response",response);
 		dispatch({
       type		: types.LIBRARY_FEED_LOADED,
       response: response,

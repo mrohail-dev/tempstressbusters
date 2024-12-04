@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ActivityIndicator, Image, ImageBackground, KeyboardAvoidingView, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Animated, InteractionManager, ImageBackground, KeyboardAvoidingView, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as routes from '../routes/routes';
@@ -35,7 +35,7 @@ class Notes extends Component {
     this._feedView = null;
 
     this.props.notesActions.loadFeed();
-
+    this._chromeOpacity = new Animated.Value(0);
     this.selectFilter = this.selectFilter.bind(this);
     this.onPressGotIt = this.onPressGotIt.bind(this);
     this.onPressAdd = this.onPressAdd.bind(this);
@@ -50,6 +50,12 @@ class Notes extends Component {
 
   componentDidMount() {
     this.selectFilter(this.state.filter);
+    Animated.timing(this._chromeOpacity, {
+      delay: 0.5,
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
   }
 
   componentWillUnmount() {
@@ -60,8 +66,10 @@ class Notes extends Component {
     const styles = this.constructor.styles;
     const { filter } = this.state;
     const { dataByFilter, filters } = this.props;
+    const chromeAnimatedStyles = [styles.container, {opacity: this._chromeOpacity}];
     return (
-      <View style={styles.container}>
+      <Animated.View style={chromeAnimatedStyles}>
+         <View style={styles.container}>
         <SlidingTabBarView
           filter={this.state.filter}
           filters={filters}
@@ -85,6 +93,7 @@ class Notes extends Component {
         </View>
 
         <Modal
+        // style={}}
           visible={this.state.modal != 'hidden'}
           animationType={'slide'}
           onRequestClose={() => this.onPressClose()} >
@@ -170,6 +179,8 @@ class Notes extends Component {
         </Modal>
 
       </View>
+      </Animated.View>
+     
     );
   }
 
@@ -180,7 +191,6 @@ class Notes extends Component {
   selectFilter(filter) {
     // console.log(filter);
     this.setState({ filter });
-    console.log(this.props.dataByFilter[filter])
     if (this.props.dataByFilter[filter] && this.props.dataByFilter[filter].length > 0) {
       this.props.notesActions.loadFeed(filter);
     }
